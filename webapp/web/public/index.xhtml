@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Welcome</ui:define>
+        <ui:define name="content">
+            <div class="conainer">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <h2>TOP 10</h2>
+                        <p>Zobacz co klienci wybierają najczęściej</p>
+                    </div>
+                </div>
+                <div class="row" id="top10">
+                    <div class="col-sm-12 col-md-6 col-md-offset-3">
+                        <div class="row item" style="border-bottom: 1px solid white">
+                            <div class="col-sm-9">
+                                <h4>Witaj wiosno</h4>
+                                <p>Ziemniaki, kotlet schabowy, surówka</p>
+                            </div>
+                            <div class="col-sm-3 price">
+                                14.99 zł
+                            </div>
+                        </div>
+                        <div class="row item" style="border-bottom: 1px solid white">
+                            <div class="col-sm-9">
+                                <h4>Witaj wiosno</h4>
+                                <p>Ziemniaki, kotlet schabowy, surówka</p>
+                            </div>
+                            <div class="col-sm-3 price">
+                                14.99 zł
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Nowa pozycja w catalog</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <h:form>
+                <div class="row">
+                    <div class="col-sm-12 col-md-3">
+                        <p:outputLabel for="name" value="Nazwa potrawy"/>
+                    </div>
+                    <div class="col-sm-12 col-md-9">
+                        <p:inputText id="name" value="#{courseController.course.name}"></p:inputText>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <p:outputLabel for="ingredients" value="Kategoria"/>
+                    </div>
+                    <div class="col-sm-12 col-md-9">
+                        <p:selectOneMenu value="#{categoryController.category}" >
+                            <f:selectItems value="#{categoryController.endCategories}" var="category"
+                                           itemLabel="#{category.name}" itemValue="#{category.id}">
+                                <!--<f:converter converterId="catalog.idConverter"/>-->
+                            </f:selectItems>
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <p:outputLabel for="ingredients" value="Składniki"/>
+                    </div>
+                    <div class="col-sm-12 col-md-9">
+                        <p:inputTextarea id="ingredients" value="#{courseController.course.ingredients}"></p:inputTextarea>
+                    </div>
+
+                    <div>
+                        <p:commandButton action="#{courseController.addNewCourse()}" value="Dodaj kategorię"/>
+
+                    </div>
+                </div>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

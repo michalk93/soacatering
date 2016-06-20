@@ -1,0 +1,5 @@
+CREATE TABLE roles (
+  role_id INT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(64) UNIQUE,
+  PRIMARY KEY (role_id)
+)

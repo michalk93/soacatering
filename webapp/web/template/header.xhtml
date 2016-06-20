@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h1 >Szybka przerwa na jedzenie</h1>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <h:form>
+                    <nav class="pull-right">
+                        <ul class="nav nav-pills">
+                            <h:panelGroup rendered="#{empty sessionScope.user}">
+                                <li role="presentation"><a href="/webapp/public/login.xhtml    ">Logowanie</a></li>
+                                <li role="presentation"><a href="/webapp/public/registration.xhtml">Rejestracja</a></li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{not empty sessionScope.user}">
+                                <li role="presentation">
+                                    <li role="presentation">${sessionScope.user}</li>
+                                    <h:commandLink action="#{accountBean.logout()}" value="Wyloguj się" />
+                                </li>
+                            </h:panelGroup>
+                        </ul>
+                    </nav>
+                    </h:form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav class="pull-right">
+                        <ul class="nav nav-pills">
+                            <li role="presentation"><a href="/webapp/public/index.xhtml">Home</a></li>
+                            <li role="presentation"><a href="/webapp/public/menu.xhtml">Menu</a></li>
+                            <li role="presentation"><a href="#">Lokalizacja</a></li>
+                            <li role="presentation"><a href="#">Kontakt</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </ui:composition>
+</h:body>
+</html>
