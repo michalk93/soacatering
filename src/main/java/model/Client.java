@@ -20,6 +20,7 @@ public class Client implements Serializable {
     private String lastname;
     private String email;
     private String password;
+    private Boolean isLogged;
 
     @Id
     @GeneratedValue
@@ -66,6 +67,15 @@ public class Client implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Column(name = "is_logged")
+    public Boolean getLogged() {
+        return isLogged;
+    }
+
+    public void setLogged(Boolean logged) {
+        isLogged = logged;
     }
 
     @Override

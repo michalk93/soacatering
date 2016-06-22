@@ -46,23 +46,25 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public Collection getCategoriesByParentId(Integer parentId) {
+        if(parentId == null){
+            return null;
+        }
         Session session = HibernateUtil.getSessionFactory().openSession();
         Criteria criteria=session.createCriteria(Category.class);
         List<Category> categories = criteria.add(Restrictions.eq("parent.id", parentId)).list();
         System.err.println("getCategoriesByParentId: " + categories.size());
         session.close();
+        if(categories.size() == 0) {
+            return null;
+        }
         return categories;
     }
 
     @Override
     public Collection getEndCategories() {
-        System.out.println("METHOD: getEndCategories");
-        //Session session = HibernateUtil.getSessionFactory().openSession();
-//        List<Category> categories = session.createQuery("from Category as cat where cat.id not in (select cat2.parent.id from Category cat2)").list();
-//        for(Category category : categories) {
-//            System.out.println("CATEGORY: " + category.getName());
-//        }
-        return new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<Category> categories = session.createQuery("from Category as cat where cat.id not in (select cat2.parent.id from Category cat2 where cat2.parent.id is not null)").list();
+        return categories;
     }
 
     @Override

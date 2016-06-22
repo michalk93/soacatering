@@ -7,7 +7,7 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:c="http://java.sun.com/jstl/core"
-        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://java.sun.com/jsf/html"
         xml:lang="en" lang="en">
 <h:body>
     <ui:composition template="/template/template.xhtml">
@@ -20,19 +20,36 @@
                         <p>Zobacz naszą ofertę</p>
                     </div>
                 </div>
-                <div class="row" id="top10">
-                    <div class="col-sm-12">
-                        <ul class="list-group">
-                            <c:forEach items="#{categoryController.getCategoriesByParentId()}" var="category">
-                                <li class="list-group-item">
-                                    <h:link value="#{category.name}">
-                                        <f:param name="categoryId" value="${category.id}"/>
-                                    </h:link>
-                                </li>
-                            </c:forEach>
-                        </ul>
+                <p:panelGroup rendered="#{not empty categoryController.categoriesByParentId}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-group">
+                                <c:forEach items="#{categoryController.getCategoriesByParentId()}" var="category">
+                                    <li class="list-group-item">
+                                        <h:link value="#{category.name}">
+                                            <f:param name="categoryId" value="${category.id}"/>
+                                        </h:link>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </p:panelGroup>
+                <p:panelGroup rendered="#{empty categoryController.categoriesByParentId}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-group">
+                                <c:forEach items="#{courseController.cursesFromCategory}" var="course">
+                                    <li class="list-group-item">
+                                        <h:link value="#{course.name}">
+                                            <f:param name="courseId" value="${course.courseId}"/>
+                                        </h:link>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
+                </p:panelGroup>
             </div>
         </ui:define>
     </ui:composition>

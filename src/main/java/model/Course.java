@@ -2,15 +2,14 @@ package model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by mkolbusz on 6/8/16.
  */
 @Entity
-@Table(name = "courses", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "course_id")}
-)
-public class Course {
+@Table(name = "courses")
+public class Course implements Serializable {
 
     @Id
     @GeneratedValue
@@ -23,14 +22,16 @@ public class Course {
     @Column(name = "ingredients", nullable = false)
     private String ingredients;
 
-    @Column(name = "category_id")
-    @OneToOne(mappedBy = "id")
-    private Category category;
-
-
     @Column(name = "price")
     private Double price;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
+    public Course() {
+    }
 
     public int getCourseId() {
         return courseId;
@@ -56,27 +57,19 @@ public class Course {
         this.ingredients = ingredients;
     }
 
-//    public int getCategoryId() {
-//        return categoryId;
-//    }
-//
-//    public void setCategoryId(int categoryId) {
-//        this.categoryId = categoryId;
-//    }
-
-        public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

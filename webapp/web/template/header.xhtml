@@ -18,15 +18,20 @@
                     <h:form>
                     <nav class="pull-right">
                         <ul class="nav nav-pills">
-                            <h:panelGroup rendered="#{empty sessionScope.user}">
+                            <h:panelGroup rendered="#{empty request.getRemoteUser()}">
                                 <li role="presentation"><a href="/webapp/public/login.xhtml    ">Logowanie</a></li>
                                 <li role="presentation"><a href="/webapp/public/registration.xhtml">Rejestracja</a></li>
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{not empty sessionScope.user}">
+                            <h:panelGroup rendered="#{not empty request.getRemoteUser()}">
                                 <li role="presentation">
                                     <li role="presentation">${sessionScope.user}</li>
                                     <h:commandLink action="#{accountBean.logout()}" value="Wyloguj się" />
                                 </li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                                <li role="presentation"><a href="/webapp/admin/category/new.xhtml">Dodaj kategorię</a></li>
+                                <li role="presentation"><a href="/webapp/admin/menu/new.xhtml">Dodaj pozycje w menu</a></li>
+
                             </h:panelGroup>
                         </ul>
                     </nav>

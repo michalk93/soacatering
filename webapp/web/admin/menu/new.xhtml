@@ -16,34 +16,43 @@
         <ui:define name="content">
             <div class="container">
                 <h:form>
+                    <p:messages autoUpdate="true"/>
                 <div class="row">
                     <div class="col-sm-12 col-md-3">
                         <p:outputLabel for="name" value="Nazwa potrawy"/>
                     </div>
                     <div class="col-sm-12 col-md-9">
                         <p:inputText id="name" value="#{courseController.course.name}"></p:inputText>
+                        <p:message for="name"/>
                     </div>
                     <div class="col-sm-12 col-md-3">
-                        <p:outputLabel for="ingredients" value="Kategoria"/>
+                        <p:outputLabel for="category" value="Kategoria"/>
                     </div>
                     <div class="col-sm-12 col-md-9">
-                        <p:selectOneMenu value="#{categoryController.category}" >
+                        <p:selectOneMenu id="category" value="#{courseController.course.category}" converter="categoryConverter">
                             <f:selectItems value="#{categoryController.endCategories}" var="category"
-                                           itemLabel="#{category.name}" itemValue="#{category.id}">
-                                <!--<f:converter converterId="catalog.idConverter"/>-->
+                                           itemLabel="#{category.name}" itemValue="#{category}">
                             </f:selectItems>
                         </p:selectOneMenu>
+                        <p:message for="category"/>
                     </div>
                     <div class="col-sm-12 col-md-3">
                         <p:outputLabel for="ingredients" value="Składniki"/>
                     </div>
                     <div class="col-sm-12 col-md-9">
                         <p:inputTextarea id="ingredients" value="#{courseController.course.ingredients}"></p:inputTextarea>
+                        <p:message for="ingredients"/>
                     </div>
-
+                    <div class="col-sm-12 col-md-3">
+                        <p:outputLabel for="price" value="Cena"/>
+                    </div>
+                    <div class="col-sm-12 col-md-3">
+                        <p:inputText id="price" value="#{courseController.course.price}">
+                            <!--<f:convertNumber type="number" maxFractionDigits="2" pattern="\d+(.\d\d)?"/>-->
+                        </p:inputText>
+                    </div>
                     <div>
                         <p:commandButton action="#{courseController.addNewCourse()}" value="Dodaj kategorię"/>
-
                     </div>
                 </div>
                 </h:form>

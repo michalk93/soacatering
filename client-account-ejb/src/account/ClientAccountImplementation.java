@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by mkolbusz on 6/5/16.
@@ -28,13 +30,11 @@ public class ClientAccountImplementation implements ClientAccount {
     public boolean login(Client client) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Criteria criteria = session.createCriteria(Client.class);
-        Client c = (Client)criteria.add(Restrictions.eq("email", client.getEmail())).uniqueResult();
-
-        System.out.println(c.getPassword() + " <> " + client.getPassword());
-        if(!c.getPassword().equals(client.getPassword())){
-            return false;
-        }
-
+        client = (Client)criteria.add(Restrictions.eq("email", client.getEmail())).uniqueResult();
+        client.setLogged(true);
+        session.save(client);
+        HibernateUtil.shutdown();
+        //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", c);
         return true;
     }
 }

@@ -2,6 +2,7 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -29,16 +30,18 @@ public class Category implements Serializable {
     @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     Set<Category> children = new LinkedHashSet<Category>();
 
-    @OneToMany(mappedBy = "category_id")
-    Set<Course> courses = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "category")
+    Set<Course> courses = new HashSet<>();
 
+    public Category() {
+    }
 
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
-        id = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -67,7 +70,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        String result = name;
+        String result = "(" +id +")" + name;
         if(parent != null){
             result += ",{ parent: " + this.parent.getId() + " - " + this.parent.getName() + "}";
         }
@@ -75,5 +78,20 @@ public class Category implements Serializable {
             result += ", children: " + this.children.size();
         }
         return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        Category category = (Category) obj;
+        if(!category.getName().equals(this.getName())){
+            return false;
+        }
+        if(category.getParent() != null) {
+            if (category.getParent().getId() != this.getParent().getId()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
