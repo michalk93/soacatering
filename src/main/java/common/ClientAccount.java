@@ -1,8 +1,8 @@
 package common;
 
-import model.Client;
+import exceptions.UserSessionExistsException;
+import model.User;
 
-import javax.ejb.Local;
 import javax.ejb.Remote;
 
 /**
@@ -10,6 +10,7 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface ClientAccount {
-    boolean register(Client client);
-    boolean login(Client client);
+    boolean register(User user);
+    User login(User user) throws UserSessionExistsException;
+    boolean logout(User user);
 }

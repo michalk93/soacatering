@@ -17,10 +17,17 @@
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center">
                         <h2>MENU</h2>
-                        <p>Zobacz naszą ofertę</p>
+                        <p>Zobacz naszą ofertę, wybierz danie dla siebie</p>
                     </div>
                 </div>
                 <p:panelGroup rendered="#{not empty categoryController.categoriesByParentId}">
+                    <p:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-default" href="/webapp/admin/category/new.xhtml">Dodaj kategorię</a>
+                            </div>
+                        </div>
+                    </p:panelGroup>
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="list-group">
@@ -29,19 +36,28 @@
                                         <h:link value="#{category.name}">
                                             <f:param name="categoryId" value="${category.id}"/>
                                         </h:link>
+
                                     </li>
                                 </c:forEach>
                             </ul>
                         </div>
                     </div>
+
                 </p:panelGroup>
                 <p:panelGroup rendered="#{empty categoryController.categoriesByParentId}">
+                    <p:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <a class="btn btn-default" href="/webapp/admin/menu/new.xhtml">Dodaj pozycje w menu</a>
+                            </div>
+                        </div>
+                    </p:panelGroup>
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="list-group">
                                 <c:forEach items="#{courseController.cursesFromCategory}" var="course">
                                     <li class="list-group-item">
-                                        <h:link value="#{course.name}">
+                                        <h:link value="#{course.name}" outcome="course.xhtml">
                                             <f:param name="courseId" value="${course.courseId}"/>
                                         </h:link>
                                     </li>

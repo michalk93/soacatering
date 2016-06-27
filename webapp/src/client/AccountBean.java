@@ -2,8 +2,10 @@ package client;
 
 
 import common.ClientAccount;
-import model.Client;
+import exceptions.UserSessionExistsException;
+import model.User;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -21,22 +23,27 @@ import java.io.IOException;
 @ManagedBean
 @RequestScoped
 public class AccountBean {
-    public Client client = new Client();
+    public User user;
 
     @EJB(lookup = "java:jboss/exported/clientAccount/ClientAccountImplementation!common.ClientAccount")
     ClientAccount clientAccount;
 
-    public Client getClient() {
-        return client;
+    public User getUser() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUser(User user) {
+        this.user = user;
     }
 
+
+    @PostConstruct
+    public void init() {
+        user = new User();
+    }
 
     public void register(){
-        clientAccount.register(client);
+        clientAccount.register(user);
     }
 
     public String login(){
@@ -44,10 +51,14 @@ public class AccountBean {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
         try {
-            request.login(client.getEmail(), client.getPassword());
-            context.getExternalContext().getSessionMap().put("user", client);
-            clientAccount.login(client);
+            request.login(user.getEmail(), user.getPassword());
+            user = clientAccount.login(user);
+            context.getExternalContext().getSessionMap().put("user", user);
             response.sendRedirect("index.xhtml");
+            return null;
+        }catch (UserSessionExistsException e) {
+            context.addMessage(null, new FacesMessage("Użytkownik już zalogowany."));
+            return null;
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,6 +71,8 @@ public class AccountBean {
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        User user = (User) session.getAttribute("user");
+        clientAccount.logout(user);
         session.invalidate();
         return "/public/index?faces-redirect=true";
     }

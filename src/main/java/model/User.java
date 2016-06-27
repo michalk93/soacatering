@@ -2,29 +2,41 @@ package model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by mkolbusz on 6/5/16.
  */
 @Entity
-@Table(name = "clients", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "client_id"), @UniqueConstraint(columnNames = "email")}
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "user_id"),
+        @UniqueConstraint(columnNames = "email")}
 )
-public class Client implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionID = 1L;
-
-    private int id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
-    private Boolean isLogged;
 
     @Id
     @GeneratedValue
-    @Column(name = "client_id", unique = true, nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false)
+    int id;
+
+    @Column(name = "firstname", nullable = false)
+    String firstname;
+
+    @Column(name = "lastname", nullable = false)
+    String lastname;
+
+    @Column(name = "email", nullable = false, unique = true)
+    String email;
+
+    @Column(name = "password", nullable = false)
+    String password;
+
+    @Column(name = "is_logged")
+    int isLogged = 0;
+
+
     public int getId() {
         return id;
     }
@@ -33,7 +45,6 @@ public class Client implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "firstname", nullable = false)
     public String getFirstname() {
         return firstname;
     }
@@ -42,7 +53,6 @@ public class Client implements Serializable {
         this.firstname = firstname;
     }
 
-    @Column(name = "lastname", nullable = false)
     public String getLastname() {
         return lastname;
     }
@@ -51,7 +61,6 @@ public class Client implements Serializable {
         this.lastname = lastname;
     }
 
-    @Column(name = "email", nullable = false, unique = true)
     public String getEmail() {
         return email;
     }
@@ -60,7 +69,6 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -69,13 +77,12 @@ public class Client implements Serializable {
         this.password = password;
     }
 
-    @Column(name = "is_logged")
-    public Boolean getLogged() {
+    public int getIsLogged() {
         return isLogged;
     }
 
-    public void setLogged(Boolean logged) {
-        isLogged = logged;
+    public void setIsLogged(int isLogged) {
+        this.isLogged = isLogged;
     }
 
     @Override
