@@ -16,7 +16,6 @@ public class HibernateTest {
 
         Course course = new Course();
         course.setName("Zupa grzybowa");
-        course.setIngredients("ziemniaki, grzyby: borowiki, kurki");
         course.setPrice(14.99);
         course.setCategory(category);
 

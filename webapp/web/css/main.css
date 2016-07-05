@@ -37,3 +37,14 @@ body {
     line-height: 4em;
     text-align: right;
 }
+
+
+.ui-row-editor {
+    display: inline-flex;
+}
+.ui-row-editor > .ui-icon-pencil {
+    border: 1px solid #333;
+    height: 20px;
+    width: 20px;
+    margin: 5px;
+}

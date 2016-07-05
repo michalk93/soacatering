@@ -3,7 +3,7 @@ package catalog;
 import db.HibernateUtil;
 import model.Category;
 import org.hibernate.Criteria;
-import org.hibernate.classic.Session;
+import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 import javax.faces.component.UIComponent;

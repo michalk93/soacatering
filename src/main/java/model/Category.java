@@ -1,6 +1,11 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -11,6 +16,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "categories")
+@XmlRootElement
 public class Category implements Serializable {
 
     private static final long serialVersionID = 1L;
@@ -23,14 +29,8 @@ public class Category implements Serializable {
     @Column(name = "name")
     String name;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "parent_category_id")
-    Category parent;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
-    Set<Category> children = new LinkedHashSet<Category>();
-
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     Set<Course> courses = new HashSet<>();
 
     public Category() {
@@ -52,45 +52,27 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public Category getParent() {
-        return parent;
-    }
-
-    public void setParent(Category parent) {
-        this.parent = parent;
-    }
-
-    public Set<Category> getChildren() {
-        return children;
-    }
-
-    public void setChildren(Set<Category> children) {
-        this.children = children;
-    }
-
     @Override
     public String toString() {
-        String result = "(" +id +")" + name;
-        if(parent != null){
-            result += ",{ parent: " + this.parent.getId() + " - " + this.parent.getName() + "}";
-        }
-        if(children != null) {
-            result += ", children: " + this.children.size();
-        }
-        return result;
+        return this.getId() + " " + this.getName();
     }
 
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
 
     @Override
     public boolean equals(Object obj) {
         Category category = (Category) obj;
-        if(!category.getName().equals(this.getName())){
-            return false;
+        if(category.getId() == this.getId()){
+            return true;
         }
-        if(category.getParent() != null) {
-            if (category.getParent().getId() != this.getParent().getId()) {
-                return false;
-            }
+        if(!category.getName().equalsIgnoreCase(this.getName())){
+            return false;
         }
         return true;
     }

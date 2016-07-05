@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Menu</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <h2>MENU</h2>
+                        <p>Zobacz naszą ofertę, wybierz danie dla siebie</p>
+                    </div>
+                </div>
+                <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a class="btn btn-default" href="/webapp/admin/category/new.xhtml">Dodaj kategorię</a>
+                        </div>
+                    </div>
+                </h:panelGroup>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h:form id="categoryListForm">
+                        <ul class="list-group">
+                            <c:forEach items="#{categoryController.categoryList}" var="category">
+                                <li class="list-group-item">
+                                    <p:link outcome="menu" value="#{category.name}">
+                                        <f:param name="categoryId" value="${category.id}"/>
+                                    </p:link>
+                                    <p:commandButton actionListener="#{categoryController.removeCategory(category)}" icon="ui-icon-trash" update="categoryListForm"/>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

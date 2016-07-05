@@ -3,18 +3,21 @@
 <html
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
         xml:lang="en" lang="en">
 <h:head>
     <title>
         <ui:insert name="title">Catering</ui:insert>
     </title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />-->
     <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="/webapp/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webapp/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/webapp/css/main.css"/>
 </h:head>
 <h:body>
+    <f:view locale="pl-PL">
     <div id="page">
         <div id="header">
             <ui:insert name="header">
@@ -32,6 +35,7 @@
             </ui:insert>
         </div>
     </div>
+    </f:view>
     <!--<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>-->
     <!--&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;-->
     <!--<script type="application/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->

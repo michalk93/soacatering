@@ -11,6 +11,8 @@ import java.util.List;
  */
 @Remote
 public interface CourseService {
-    boolean addNewCourse(Course course);
     List<Course> getCoursesFromCategory(Category category);
+    boolean removeCourse(Course course);
+    List<Course> getAll();
+    boolean save(Course course);
 }

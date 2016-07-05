@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Nowa pozycja w catalog</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <h:form enctype="multipart/form-data">
+                    <p:messages autoUpdate="true"/>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-3">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel for="name" value="Nazwa składnika"/>
+                                <p:inputText id="name" required="true" value="#{ingredientController.ingredient.name}"/>
+
+                                <p:outputLabel for="quantity" value="Ilość składnika"/>
+                                <p:inputText id="quantity" required="true" value="#{ingredientController.ingredient.quantity}"/>
+
+                                <p:outputLabel for="alert_quantity"/>
+                                <p:inputText id="alert_quantity" required="true" value="#{ingredientController.ingredient.alertQantity}"/>
+
+                                <h:panelGroup/>
+                                <p:commandButton icon="ui-icon-save" value="Zapisz" action="#{ingredientController.save}"/>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

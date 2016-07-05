@@ -4,18 +4,26 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <!--<property name="hibernate.bytecode.use_reflection_optimizer">false</property>-->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/soacatering?characterEncoding=UTF-8</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/soacatering</property>
         <property name="hibernate.connection.CharSet">utf8</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="c3p0.timeout">10</property>
         <property name="show_sql">true</property>
         <mapping class="model.User"/>
         <mapping class="model.Category"/>
         <mapping class="model.Course"/>
+        <mapping class="model.Order"/>
+        <mapping class="model.OrderItem"/>
+        <mapping class="model.Ingredient"/>
+        <mapping class="model.CourseIngredient"/>
+        <mapping class="model.Subscription"/>
+        <mapping class="model.SubscriptionItem"/>
+        <mapping class="model.OrderStatus"/>
     </session-factory>
 </hibernate-configuration>

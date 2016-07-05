@@ -18,15 +18,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form>
-                            <p:selectOneMenu value="#{categoryController.parentId}">
-                                <f:selectItem itemValue="" itemLabel="Kategoria główna"/>
-                                <f:selectItems value="#{categoryController.allCategories}" var="category"
-                                               itemLabel="#{category.name}" itemValue="#{category.id}">
-                                    <!--<f:converter converterId="catalog.idConverter"/>-->
-                                </f:selectItems>
-                            </p:selectOneMenu>
-                            <p:inputText value="#{categoryController.category.name}" />
-                            <p:commandButton action="#{categoryController.saveNewCategory()}" value="Dodaj kategorię"/>
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <p:outputLabel for="name" value="Nazwa kategorii: "/>
+                                <p:inputText id="name" value="#{categoryController.category.name}" />
+
+                                <h:panelGroup/>
+                                <p:commandButton action="#{categoryController.saveNewCategory()}" value="Dodaj kategorię"/>
+                            </h:panelGrid>
                         </h:form>
                     </div>
                 </div>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Menu</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <h2>TWÓJ KOSZYK</h2>
+                        <h:form>
+                            <h:outputText id="cartSize" value="Ilość elementów w koszyku: ${orderBean.courseList.size()}"/>
+                        </h:form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h:form id="coursesDTForm">
+                            <p:growl id="msgs" showDetail="true"/>
+
+                            <p:dataTable id="coursesDT" var="course" editable="true" value="#{orderBean.courseList}" rowKey="#{course.courseId}">
+                                <f:facet name="header">
+                                    Pozycje dodane do koszyka
+                                </f:facet>
+
+                                <p:column headerText="ID" width="30">
+                                    <h:outputText value="#{course.courseId}"/>
+                                </p:column>
+                                <p:column headerText="Nazwa">
+                                    <h:outputText value="#{course.name}"/>
+                                </p:column>
+                                <p:column headerText="Cena">
+                                    <h:outputText value="#{course.price}"/>
+                                </p:column>
+                                <p:column headerText="Menu" rendered="#{request.isUserInRole('USER')}">
+                                    <p:commandButton icon="ui-icon-trash" title="Delete this course" action="#{orderBean.removeItem(course)}" update="coursesDT,j_idt9:headerCartSize,j_idt9:j_idt10" />
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                        <h:link outcome="order.xhtml" value="Złóż zamówienie"/>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

@@ -1,8 +1,17 @@
 package model;
 
+import db.HibernateUtil;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,6 +22,7 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "user_id"),
         @UniqueConstraint(columnNames = "email")}
 )
+@XmlRootElement
 public class User implements Serializable {
     private static final long serialVersionID = 1L;
 
@@ -35,6 +45,14 @@ public class User implements Serializable {
 
     @Column(name = "is_logged")
     int isLogged = 0;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    List<Subscription> subscriptions = new ArrayList<>();
 
 
     public int getId() {
@@ -83,6 +101,22 @@ public class User implements Serializable {
 
     public void setIsLogged(int isLogged) {
         this.isLogged = isLogged;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
     }
 
     @Override

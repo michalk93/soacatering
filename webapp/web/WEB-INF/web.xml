@@ -7,6 +7,11 @@
         <servlet-name>facesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>facesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
@@ -14,6 +19,16 @@
     <welcome-file-list>
         <welcome-file>public/index.xhtml</welcome-file>
     </welcome-file-list>
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>javax.ws.rs.core.Application</servlet-name>-->
+        <!--<url-pattern>/api/*</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
 
     <context-param>
         <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
@@ -38,7 +53,7 @@
         <web-resource-collection>
             <web-resource-name>Protected Admin Area</web-resource-name>
             <description></description>
-            <url-pattern>/admin/*</url-pattern>
+            <url-pattern>/admin2/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -62,7 +77,7 @@
         <web-resource-collection>
             <web-resource-name>Protected User Area</web-resource-name>
             <description></description>
-            <url-pattern>/user/*</url-pattern>
+            <url-pattern>/user2/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>

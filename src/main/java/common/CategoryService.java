@@ -4,6 +4,7 @@ import model.Category;
 
 import javax.ejb.Remote;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by mkolbusz on 6/5/16.
@@ -11,10 +12,8 @@ import java.util.Collection;
 @Remote
 public interface CategoryService {
     Category getCategoryById(int id);
-    Collection getAllCategories();
-    Collection getCategoriesWithoutParent();
-    Collection getCategoriesByParentId(Integer parentId);
-    Collection getEndCategories();
+    List getAll();
 
-    boolean save(Category category, Integer parentId);
+    boolean save(Category category);
+    boolean remove(Category category);
 }

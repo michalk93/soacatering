@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xml:lang="en" lang="en">
+
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Nowa pozycja w catalog</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h:form id="courseForm" enctype="multipart/form-data">
+                            <p:growl id="msgs" showDetail="true"/>
+                        <p:messages autoUpdate="true"/>
+
+                        <p:panelGrid columns="3">
+                            <p:outputLabel for="name" value="Nazwa potrawy"/>
+                            <p:inputText id="name" value="#{courseController.course.name}"/>
+                            <p:message for="name"/>
+
+                            <p:outputLabel for="category" value="Kategoria"/>
+                            <p:selectOneMenu id="category" value="#{courseController.course.category}" converter="categoryConverter">
+                                <f:selectItems value="#{categoryController.categories}" var="category"
+                                               itemLabel="#{category.name}" itemValue="#{category}">
+                                </f:selectItems>
+                            </p:selectOneMenu>
+                            <p:message for="category"/>
+
+                            <p:outputLabel for="ingredients" value="Składniki"/>
+                            <p:panelGrid id="ingredients" columns="1">
+                                <p:selectOneMenu value="#{courseController.selectedCourseIngredient.ingredient}" converter="ingredientConverter">
+                                    <f:selectItems value="#{ingredientController.ingredientList}" var="ingredient" itemLabel="#{ingredient.name}"
+                                                   itemValue="#{ingredient}"/>
+                                </p:selectOneMenu>
+                                <p:inputText value="#{courseController.selectedCourseIngredient.quantity}"/>
+                                <p:commandButton icon="ui-icon-plus" value="Dodaj" actionListener="#{courseController.addIngredient}" update=":courseForm:courseIngredientsDT"/>
+
+                                <p:dataTable id="courseIngredientsDT" editable="true" value="#{courseController.course.courseIngredients}" var="courseIngredient">
+                                    <f:facet name="header">
+                                        <h:outputText value="Składniki potrawy"/>
+                                    </f:facet>
+
+                                    <p:ajax event="rowEdit" listener="#{courseController.onRowEdit}" update=":courseForm:msgs,courseIngredientsDT">
+                                        <f:param name="id" value="#{courseController.course.courseId}"/>
+                                    </p:ajax>
+                                    <p:ajax event="rowEditCancel" listener="#{courseController.onRowCancel}" update=":courseForm:msgs">
+                                        <f:param name="id" value="#{courseController.course.courseId}"/>
+                                    </p:ajax>
+
+                                    <p:column headerText="Nazwa">
+                                        <h:outputText value="#{courseIngredient.ingredient.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Ilość">
+                                        <p:cellEditor>
+                                            <f:facet name="output"><h:outputText value="#{courseIngredient.quantity}"/></f:facet>
+                                            <f:facet name="input"><p:inputText value="#{courseIngredient.quantity}"/></f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column rendered="#{not empty param.id}">
+                                        <p:rowEditor/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panelGrid>
+                            <h:panelGroup/>
+
+                            <p:outputLabel for="price" value="Cena"/>
+                            <p:inputText id="price" value="#{courseController.course.price}">
+                                <!--<f:convertNumber type="number" maxFractionDigits="2" pattern="\d+(.\d\d)?"/>-->
+                            </p:inputText>
+                            <h:panelGroup/>
+
+                            <p:outputLabel for="photo" value="Zdjęcie potrawy"/>
+                            <p:fileUpload id="photo" value="#{courseController.coursePhoto}" mode="simple" skinSimple="true"/>
+                            <h:panelGroup/>
+
+                            <h:panelGroup/>
+                            <p:commandButton rendered="#{empty param.id}" action="#{courseController.save}" value="Dodaj danie"/>
+                            <h:panelGroup/>
+                        </p:panelGrid>
+                    </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

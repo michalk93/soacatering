@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Zamówienia ${userController.user.email}</ui:define>
+        <ui:define name="content">
+            <div class="conainer">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <h2>EMPLOYEE</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p:dataTable id="ordersDT" value="#{orderBean.allOrders}" var="order">
+                            <f:facet name="header">
+                                Lista zamówień
+                            </f:facet>
+                            <p:column width="50">
+                                <p:rowToggler/>
+                            </p:column>
+                            <p:column headerText="ID" width="100">
+                                <h:outputText value="#{order.orderId}"/>
+                            </p:column>
+                            <p:column headerText="Adres dostawy">
+                                <h:outputText value="#{order.shippingAddress}"/>
+                            </p:column>
+                            <p:column headerText="Preferowany czas dostawy">
+                                <h:outputText value="#{order.shippingTime}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd HH:MM"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Czas złożenia zamówienia">
+                                <h:outputText value="#{order.createdAt}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd HH:MM"/>
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Status">
+                                <h:form id="statusForm">
+                                <h:outputText value="#{order.status}"/><br/>
+                                <p:selectOneMenu value="#{orderBean.order.status}" converter="orderStatusConverter">
+                                    <f:selectItems value="#{orderBean.orderStatuses}" var="status" itemLabel="#{status.name}" itemValue="#{status}"/>
+                                </p:selectOneMenu><br/>
+                                <p:commandButton action="#{orderBean.changeStatus(order)}" value="Ustaw status" update="statusForm"/>
+                                </h:form>
+                            </p:column>
+                            <p:column headerText="Komentarz">
+                                <h:form id="commentForm">
+                                    <p:commandButton rendered="#{empty order.comment}" action="#{orderBean.setDialogComment(order)}"  value="Dodaj komentarz" oncomplete="PF('commentDialog').show()"/>
+                                    <h:outputText rendered="#{not empty order.comment}" value="#{order.comment}"/><br/>
+                                    <p:commandButton rendered="#{not empty order.comment}" action="#{orderBean.setDialogComment(order)}"  value="Zmień komentarz" oncomplete="PF('commentDialog').show()"/>
+                                </h:form>
+                            </p:column>
+                            <p:rowExpansion>
+                                <p:dataTable value="#{order.orderItems}" var="item">
+                                    <p:column headerText="Nazwa">
+                                        <h:outputText value="#{item.course.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Cena">
+                                        <h:outputText value="#{item.course.price}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:rowExpansion>
+                        </p:dataTable>
+                    </div>
+                </div>
+            </div>
+            <p:dialog header="Komentarz do zamówienia" widgetVar="commentDialog" resizable="false">
+                <h:form>
+                        <p:outputLabel for="commentInput" value="Treść komentarza"/><br/>
+                        <p:inputTextarea id="commentInput" value="#{orderBean.order.comment}" cols="50" rows="10" /><br/>
+                        <p:commandButton action="#{orderBean.update()}" value="Dodaj komentarz" update="ordersDT"/>
+                </h:form>
+            </p:dialog>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

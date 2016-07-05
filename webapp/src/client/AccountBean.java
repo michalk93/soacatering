@@ -72,8 +72,8 @@ public class AccountBean {
         FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         User user = (User) session.getAttribute("user");
-        clientAccount.logout(user);
         session.invalidate();
+        clientAccount.logout(user);
         return "/public/index?faces-redirect=true";
     }
 

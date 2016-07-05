@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Tworzenie subskrybcji </ui:define>
+        <ui:define name="content">
+            <div class="conainer">
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <h2>USER PANEL</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h:form id="subscriptionForm">
+                            <p:growl id="msgs" autoUpdate="true"/>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel for="weekDay" value="Dzień tygodnia"/>
+                                <p:selectOneMenu id="weekDay" value="#{subscriptionController.subscription.weekDay}">
+                                    <f:selectItem itemValue="2" itemLabel="Poniedziałek"/>
+                                    <f:selectItem itemValue="3" itemLabel="Wtorek"/>
+                                    <f:selectItem itemValue="4" itemLabel="Środa"/>
+                                    <f:selectItem itemValue="5" itemLabel="Czwartek"/>
+                                    <f:selectItem itemValue="6" itemLabel="Piątek"/>
+                                    <f:selectItem itemValue="7" itemLabel="Sobota"/>
+                                    <f:selectItem itemValue="1" itemLabel="Niedziela"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel for="shippginTime" value="Czas dostawy"/>
+                                <p:calendar id="shippginTime" timeOnly="true" pattern="HH:mm" value="#{subscriptionController.subscription.shippingTime}"></p:calendar>
+
+                                <p:outputLabel for="shippingAddress" value="Adres dostawy"/>
+                                <p:inputTextarea id="shippingAddress" value="#{subscriptionController.subscription.shippingAddress}"/>
+
+                                <h:panelGroup/>
+                                <h:panelGroup>
+                                    <p:commandButton type="button" value="Dodaj pozycję" onclick="PF('menuDialog').show();"/>
+                                <p:dataTable id="subscriptionCoursesDT" value="#{subscriptionController.subscription.subscriptionItems}" var="subscriptionItem">
+                                    <f:facet name="header">
+                                        <h:outputText value="Pozycje w subskrypcji"/>
+                                    </f:facet>
+                                    <p:column headerText="Nazwa">
+                                        <h:outputText value="#{subscriptionItem.course.name}"/>
+                                    </p:column>
+                                    <p:column headerText="Cena">
+                                        <h:outputText value="#{subscriptionItem.course.price}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-trash" action="#{subscriptionController.removeCourse(subscriptionItem.course)}" update="subscriptionCoursesDT"/>
+                                    </p:column>
+                                </p:dataTable>
+                                </h:panelGroup>
+
+                                <h:panelGroup/>
+                                <p:commandButton icon="fa fa-save" value="Zapisz subskrybcję" action="#{subscriptionController.save}" />
+
+                            </p:panelGrid>
+
+
+                            <p:dialog header="Menu" widgetVar="menuDialog">
+                                <h:form id="menuForm">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel for="category" value="Kategoria"/>
+                                        <p:selectOneMenu id="category" value="#{courseController.course.category}" converter="categoryConverter">
+                                            <p:ajax event="change" listener="#{subscriptionController.selectCategory}" update="coursesTable"/>
+                                            <f:selectItem itemValue="" itemLabel="Wybierz kategorię"/>
+                                            <f:selectItems value="#{categoryController.categories}" var="category"
+                                                           itemLabel="#{category.name}" itemValue="#{category}">
+                                            </f:selectItems>
+
+                                        </p:selectOneMenu>
+
+                                        <h:panelGroup/>
+                                        <p:dataTable id="coursesTable" value="#{subscriptionController.getCourses()}" var="course" paginator="true"
+                                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="5,10,15">
+                                            <f:facet name="header">
+                                                <h:outputText value="Pozycje dostępne w wybranej kategorii"/>
+                                            </f:facet>
+
+                                            <p:column headerText="Nazwa">
+                                                <h:outputText value="#{course.name}"/>
+                                            </p:column>
+                                            <p:column headerText="Składniki">
+                                                <h:outputText value="#{course.courseIngredients}"/>
+                                            </p:column>
+                                            <p:column headerText="Cena">
+                                                <h:outputText value="#{course.price}">
+                                                    <f:convertNumber currencySymbol="zł" type="currency"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Menu">
+                                                <p:commandButton value="Dodaj" icon="ui-icon-plus" actionListener="#{subscriptionController.addCourse(course)}" update=":subscriptionForm:subscriptionCoursesDT"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:panelGrid>
+                                </h:form>
+                            </p:dialog>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

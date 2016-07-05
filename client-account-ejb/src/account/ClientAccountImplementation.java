@@ -16,16 +16,13 @@ import javax.ejb.Stateless;
 /**
  * Created by mkolbusz on 6/5/16.
  */
-@Stateless(mappedName = "clientAccount")
+@Stateless(mappedName = "orderService")
 public class ClientAccountImplementation implements ClientAccount {
-
     @Override
     public boolean register(User user) {
         user.setPassword(getHashedPassword(user.getPassword()));
         Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
         session.save(user);
-        session.getTransaction().commit();
         HibernateUtil.shutdown();
         return true;
     }
@@ -42,13 +39,11 @@ public class ClientAccountImplementation implements ClientAccount {
         user = (User)criteria.add(Restrictions.eq("email", user.getEmail())).uniqueResult();
 
         if(user == null || user.getIsLogged() == 1) {
-            HibernateUtil.shutdown();
             throw new UserSessionExistsException();
         }
 
-        user.setIsLogged(1);
+//        user.setIsLogged(1);
         session.update(user);
-
         session.getTransaction().commit();
         HibernateUtil.shutdown();
         return user;
@@ -65,7 +60,6 @@ public class ClientAccountImplementation implements ClientAccount {
             user.setIsLogged(0);
             session.update(user);
         }
-
         session.getTransaction().commit();
         HibernateUtil.shutdown();
         return true;

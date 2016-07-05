@@ -6,15 +6,16 @@ import model.Category;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
+import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class CategoryController {
     private Category category;
-    private Integer parentId;
+
+    private List<Category> categoryList = new ArrayList<>();
 
     @EJB(lookup = "java:jboss/exported/catalog/CategoryServiceImplementation!common.CategoryService")
     CategoryService categoryService;
@@ -22,7 +23,7 @@ public class CategoryController {
     @PostConstruct
     void init(){
         category = new Category();
-        category.setParent(new Category());
+        categoryList = categoryService.getAll();
     }
 
     public Category getCategory() {
@@ -33,39 +34,27 @@ public class CategoryController {
         this.category = category;
     }
 
-    public Integer getParentId() {
-        return parentId;
+
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
     }
 
-    public List<Category> getAllCategories(){
-        return (List<Category>) categoryService.getAllCategories();
-    }
 
-    public List<Category> getCategoriesByParentId(){
-        try {
-            parentId = Integer.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("categoryId"));
-        }catch(NumberFormatException e) {
-            parentId = null;
-        }
-
-        if(parentId == null){
-            List<Category> categories = (List<Category>) categoryService.getCategoriesWithoutParent();
-            System.out.println(categories.size());
-            return categories;
-        }
-        return (List<Category>) categoryService.getCategoriesByParentId(parentId);
-    }
-
-    public List<Category> getEndCategories(){
-        return (List<Category>) categoryService.getEndCategories();
+    public List<Category> getCategories(){
+        return categoryService.getAll();
     }
 
     public void saveNewCategory(){
-        categoryService.save(category, parentId);
+        categoryService.save(category);
+    }
+
+    public void removeCategory(Category category) {
+        categoryList.remove(category);
+        categoryService.remove(category);
     }
 
 }
