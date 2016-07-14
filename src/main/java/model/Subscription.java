@@ -34,6 +34,10 @@ public class Subscription implements Serializable {
     Date shippingTime;
 
     @Basic
+    @Column(name = "payment_method", nullable = false)
+    String paymentMethod;
+
+    @Basic
     @Column(name = "weekday")
     int weekDay;
 
@@ -88,5 +92,13 @@ public class Subscription implements Serializable {
 
     public void setSubscriptionItems(List<SubscriptionItem> subscriptionItems) {
         this.subscriptionItems = subscriptionItems;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

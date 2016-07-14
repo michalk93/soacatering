@@ -20,12 +20,20 @@
                         <p:growl id="messages"/>
                         <p:menubar rendered="#{not empty sessionScope.user}" id="headerCartSize">
                             <p:submenu label="${sessionScope.user}" icon="ui-icon-user" rendered="#{request.isUserInRole('USER')}">
-                                    <p:menuitem value="Zamówianie" url="/user/orders.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-                                    <p:menuitem value="Subskrybcje" url="/user/subscription/list.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+                                <p:menuitem value="Lista zamówień" url="/user/orders.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:submenu label="Subskrybcje" icon="ui-icon-arrowreturnthick-1-e">
+                                    <p:menuitem value="Lista subskrybcji" url="/user/subscription/list.xhtml"/>
+                                    <p:menuitem value="Stwórz subskrybcję" url="/user/subscription/new.xhtml"/>
+                                </p:submenu>
+                                <p:menuitem value="Ustawienia" url="/user/settings/index.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
                             </p:submenu>
                             <p:submenu label="${sessionScope.user}" icon="ui-icon-user" rendered="#{request.isUserInRole('MANAGER')}">
-                                    <p:menuitem value="Dodaj kategorię" url="/manager/category/new.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-                                    <p:menuitem value="Dodaj pozycję menu" url="/manager/course/new.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+                                <p:menuitem value="Dodaj kategorię" url="/manager/category/new.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+                                <p:menuitem value="Dodaj pozycję menu" url="/manager/course/new.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+                                <p:menuitem value="Dodaj składnik" url="/manager/ingredient/new.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                            </p:submenu>
+                            <p:submenu label="${sessionScope.user}" icon="ui-icon-user" rendered="#{request.isUserInRole('EMPLOYEE')}">
+                                <p:menuitem value="Lista zamówień" url="/employee/order/list.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
                             <p:menuitem value="Koszyk: #{orderBean.courseList.size()}" url="/user/cart.xhtml"/>
                             <p:menuitem value="Wyloguj" action="#{accountBean.logout()}"/>
@@ -35,36 +43,6 @@
                             <p:menuitem value="Rejestracja" url="/public/registration.xhtml"/>
                         </p:menubar>
                     </h:form>
-                    <!--<h:form>-->
-                    <!--<nav class="pull-right">-->
-                        <!--<ul class="nav nav-pills">-->
-                            <!--<h:panelGroup rendered="#{empty request.getRemoteUser()}">-->
-                                <!--<li role="presentation"><a href="/webapp/public/login.xhtml">Logowanie</a></li>-->
-                                <!--<li role="presentation"><a href="/webapp/public/registration.xhtml">Rejestracja</a></li>-->
-                            <!--</h:panelGroup>-->
-                            <!--<h:panelGroup rendered="#{not empty request.getRemoteUser()}">-->
-                                <!--<li role="presentation">${sessionScope.user}</li>-->
-                                <!--<li role="presentation">-->
-                                    <!--<a href="/webapp/public/cart.xhtml" style="text-align: center">Zobacz koszyk<br/>-->
-                                    <!--<h:form id="cart">-->
-                                        <!--<h:outputText style="font-size: 12px" id="cartSize" value="Ilość elementów w koszyku: ${orderBean.courseList.size()}"/>-->
-                                    <!--</h:form>-->
-                                    <!--</a>-->
-                                <!--</li>-->
-                                <!--<li role="presentation">-->
-
-                                <!--</li>-->
-                                <!--<li role="presentation">-->
-                                    <!--<h:commandLink action="#{accountBean.logout()}" value="Wyloguj się" />-->
-                                <!--</li>-->
-                            <!--</h:panelGroup>-->
-                            <!--<h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">-->
-                                <!--<li role="presentation"><a href="/webapp/admin/category/new.xhtml">Dodaj kategorię</a></li>-->
-                                <!--<li role="presentation"><a href="/webapp/admin/menu/new.xhtml">Dodaj pozycje w menu</a></li>-->
-                            <!--</h:panelGroup>-->
-                        <!--</ul>-->
-                    <!--</nav>-->
-                    <!--</h:form>-->
                 </div>
             </div>
             <div class="row">
@@ -73,8 +51,6 @@
                         <ul class="nav nav-pills">
                             <li role="presentation"><a href="/webapp/public/index.xhtml">Home</a></li>
                             <li role="presentation"><a href="/webapp/public/categories.xhtml">Menu</a></li>
-                            <li role="presentation"><a href="#">Lokalizacja</a></li>
-                            <li role="presentation"><a href="#">Kontakt</a></li>
                         </ul>
                     </nav>
                 </div>

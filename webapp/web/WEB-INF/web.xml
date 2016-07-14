@@ -12,6 +12,17 @@
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/primepush/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>facesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
@@ -53,7 +64,30 @@
         <web-resource-collection>
             <web-resource-name>Protected Admin Area</web-resource-name>
             <description></description>
-            <url-pattern>/admin2/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Manager Pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Manager Area</web-resource-name>
+            <description></description>
+            <url-pattern>/manager/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -77,7 +111,7 @@
         <web-resource-collection>
             <web-resource-name>Protected User Area</web-resource-name>
             <description></description>
-            <url-pattern>/user2/*</url-pattern>
+            <url-pattern>/user/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>
@@ -88,7 +122,32 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
+            <role-name>ADMIN</role-name>
+            <role-name>MANAGER</role-name>
             <role-name>USER</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <display-name>Employee Pages</display-name>
+        <web-resource-collection>
+            <web-resource-name>Protected Employee Area</web-resource-name>
+            <description></description>
+            <url-pattern>/employee/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>HEAD</http-method>
+            <http-method>PUT</http-method>
+            <http-method>OPTIONS</http-method>
+            <http-method>TRACE</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <description/>
+            <role-name>EMPLOYEE</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>NONE</transport-guarantee>
@@ -100,7 +159,7 @@
         <web-resource-collection>
             <web-resource-name>None Protected User Area</web-resource-name>
             <description/>
-            <url-pattern>/users/*</url-pattern>
+            <url-pattern>/public/*</url-pattern>
             <http-method>GET</http-method>
             <http-method>POST</http-method>
             <http-method>HEAD</http-method>

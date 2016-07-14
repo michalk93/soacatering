@@ -21,13 +21,6 @@
                         <p>Zobacz naszą ofertę, wybierz danie dla siebie</p>
                     </div>
                 </div>
-                <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <a class="btn btn-default" href="/webapp/admin/menu/new.xhtml">Dodaj pozycje w menu</a>
-                        </div>
-                    </div>
-                </h:panelGroup>
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form id="coursesDTForm">
@@ -50,7 +43,7 @@
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="Menu">
-                                    <p:commandButton icon="ui-icon-plus" actionListener="#{orderBean.addItem(course)}" update="j_idt9:headerCartSize"/>
+                                    <p:commandButton rendered="#{request.isUserInRole('USER')}" icon="ui-icon-plus" actionListener="#{orderBean.addItem(course)}" update="j_idt9:headerCartSize"/>
                                     <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
                                         <p:link value="Edit" title="Edit this course" outcome="editCourse">
                                             <f:param name="id" value="#{course.courseId}"/>

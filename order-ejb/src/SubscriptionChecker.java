@@ -61,6 +61,7 @@ public class SubscriptionChecker {
         order.setCreatedAt(new Date());
         order.setShippingAddress(subscription.getShippingAddress());
         order.setShippingTime(subscription.getShippingTime());
+        order.setPaymentMethod(subscription.getPaymentMethod());
         return order;
     }
 }

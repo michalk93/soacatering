@@ -9,21 +9,16 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core"
         xml:lang="en" lang="en">
-<f:metadata>
-<f:viewParam name="id" value="#{courseController.course}" required="true"
-converter="courseConverter" converterMessage="Unknown product, please use a link from within the system."/>
-</f:metadata>
 
 <h:body>
     <ui:composition template="/template/template.xhtml">
-        <ui:define name="title">Nowa pozycja w catalog</ui:define>
+        <ui:define name="title">Edycja pozycji w catalog</ui:define>
         <ui:define name="content">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form id="courseForm" enctype="multipart/form-data">
-                            <p:growl id="msgs" showDetail="true"/>
-                            <p:messages autoUpdate="true"/>
+                            <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
 
                             <p:panelGrid columns="3">
                                 <p:outputLabel for="name" value="Nazwa potrawy"/>
@@ -45,19 +40,17 @@ converter="courseConverter" converterMessage="Unknown product, please use a link
                                                        itemValue="#{ingredient}"/>
                                     </p:selectOneMenu>
                                     <p:inputText value="#{courseController.selectedCourseIngredient.quantity}"/>
-                                    <p:commandButton icon="ui-icon-plus" value="Dodaj" actionListener="#{courseController.addIngredient}" update=":courseForm:courseIngredientsDT"/>
+                                    <p:commandButton icon="ui-icon-plus" value="Dodaj" actionListener="#{courseController.addIngredient}" update=":courseForm:courseIngredientsDT">
+                                        <f:param name="id" value="#{courseController.course.courseId}"/>
+                                    </p:commandButton>
 
                                     <p:dataTable id="courseIngredientsDT" editable="true" value="#{courseController.course.courseIngredients}" var="courseIngredient">
                                         <f:facet name="header">
                                             <h:outputText value="Składniki potrawy"/>
                                         </f:facet>
 
-                                        <p:ajax event="rowEdit" listener="#{courseController.onRowEdit}" update=":courseForm:msgs,courseIngredientsDT">
-                                            <f:param name="id" value="#{courseController.course.courseId}"/>
-                                        </p:ajax>
-                                        <p:ajax event="rowEditCancel" listener="#{courseController.onRowCancel}" update=":courseForm:msgs">
-                                            <f:param name="id" value="#{courseController.course.courseId}"/>
-                                        </p:ajax>
+                                        <p:ajax event="rowEdit" listener="#{courseController.onRowEdit}" update=":courseForm:msgs,courseIngredientsDT"/>
+                                        <p:ajax event="rowEditCancel" listener="#{courseController.onRowCancel}" update=":courseForm:msgs"/>
 
                                         <p:column headerText="Nazwa">
                                             <h:outputText value="#{courseIngredient.ingredient.name}"/>
@@ -68,7 +61,7 @@ converter="courseConverter" converterMessage="Unknown product, please use a link
                                                 <f:facet name="input"><p:inputText value="#{courseIngredient.quantity}"/></f:facet>
                                             </p:cellEditor>
                                         </p:column>
-                                        <p:column rendered="#{not empty param.id}">
+                                        <p:column>
                                             <p:rowEditor/>
                                         </p:column>
                                     </p:dataTable>
@@ -86,10 +79,7 @@ converter="courseConverter" converterMessage="Unknown product, please use a link
                                 <h:panelGroup/>
 
                                 <h:panelGroup/>
-                                <p:commandButton rendered="#{empty param.id}" action="#{courseController.save}" value="Zapisz danie"/>
-                                <p:commandButton rendered="#{not empty param.id}" action="#{courseController.save}" value="Aktualizuj danie">
-                                    <f:param name="id" value="#{courseController.course.courseId}"/>
-                                </p:commandButton>
+                                <p:commandButton action="#{courseController.save}" value="Aktualizuj danie"/>
                                 <h:panelGroup/>
                             </p:panelGrid>
                         </h:form>

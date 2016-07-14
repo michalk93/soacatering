@@ -1,15 +1,19 @@
 package order;
 
+import common.CourseService;
 import common.OrderService;
 import model.Course;
 import model.Order;
 import model.OrderStatus;
 import model.User;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.PrePassivate;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -28,14 +32,15 @@ import java.util.List;
 public class OrderBean {
     private List<Course> courseList = new ArrayList<>();
     private Order order;
-    private User user;
 
     @EJB(lookup = "java:jboss/exported/order/OrderServiceImplementation!common.OrderService")
     private OrderService orderService;
 
+    @EJB(lookup = "java:jboss/exported/catalog/CourseServiceImplementation!common.CourseService")
+    CourseService courseService;
+
     @PostConstruct
     public void init(){
-        user = (User)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         order = new Order();
     }
 
@@ -46,7 +51,6 @@ public class OrderBean {
     public void setCourseList(List<Course> courseList) {
         this.courseList = courseList;
     }
-
 
     public Order getOrder() {
         return order;
@@ -65,10 +69,14 @@ public class OrderBean {
     }
 
     public String order(){
+        User user = (User)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
         order.setUser(user);
         order.addCourses(courseList);
         orderService.save(order);
         courseList.clear();
+
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish("/top10", new FacesMessage("TOP10", "Nastąpiła zmiana w TOP10"));
         return "orderConfirm?faces-redirect=true";
     }
 
@@ -86,8 +94,7 @@ public class OrderBean {
 
     public void changeStatus(Order _order) {
         _order.setStatus(order.getStatus());
-        System.err.println(_order.getOrderItems() + ": " +_order.getStatus().getName() + " - " + _order.getStatus().getStatusID());
-        orderService.update(_order);
+        orderService.changeStatus(_order);
     }
 
     public void setDialogComment(Order _order) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+        xml:lang="en" lang="en">
+<h:body>
+    <ui:composition template="/template/template.xhtml">
+        <ui:define name="title">Ustawienia konta i dane użytkownika</ui:define>
+        <ui:define name="content">
+            <div class="container">
+                <p:panelGrid columns="2">
+                    <h:outputText value="Adres email"/>
+                    <h:outputText value="#{userController.user.email}"/>
+
+                    <h:outputText value="Imię"/>
+                    <h:outputText value="#{userController.user.firstname}"/>
+
+                    <h:outputText value="Nazwisko"/>
+                    <h:outputText value="#{userController.user.lastname}"/>
+
+                    <h:outputText value="Zmiana hasła"/>
+                    <h:panelGroup>
+                        <h:form>
+                            <p:growl id="msgs" autoUpdate="true"/>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel for="newPassword" value="Nowe hasło"/>
+                                <p:inputText id="newPassword" type="password" value="#{userSetttingsController.newPassword}"/>
+
+                                <p:outputLabel for="newPasswordConfirmation" value="Potwierdź nowe hasło"/>
+                                <p:inputText id="newPasswordConfirmation" type="password" value="#{userSetttingsController.newPasswordConfirmation}"/>
+
+                                <h:panelGroup/>
+                                <p:commandButton value="Zmień hasło" action="#{userSetttingsController.changePassword}"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </h:panelGroup>
+
+                    <h:outputText value="Potrącanie z wypłat"/>
+                    <h:panelGroup>
+                        <h:form>
+                            <h:panelGrid columns="2">
+                                <p:selectOneMenu value="#{userSetttingsController.user.company}" converter="companyConverter">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Wybierz firmę..."/>
+                                    <f:selectItems value="#{userSetttingsController.companiesList}" var="company" itemValue="#{company}" itemLabel="#{company.getName()}"/>
+                                </p:selectOneMenu>
+                                <p:inputText value="#{userSetttingsController.authCode}" />
+                                <p:commandButton value="Włącz potrącanie z wypłat" action="#{userSetttingsController.registerCompany}"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </h:panelGroup>
+                </p:panelGrid>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

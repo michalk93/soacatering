@@ -24,10 +24,23 @@
                         <h:form id="shippingForm">
                             <h:panelGrid columns="2" cellpadding="3" cellspacing="1">
                                 <p:outputLabel for="shippingAddress" value="Adres dostawy"/>
-                                <p:inputTextarea id="shippingAddress" value="#{orderBean.order.shippingAddress}"/>
+                                <h:panelGroup>
+                                    <p:inputTextarea id="shippingAddress" value="#{orderBean.order.shippingAddress}"/>
+                                    <h:outputText value="Jeśli zamówienie zostanie odebrane osobiście w kafeterii,
+                                    proszę wpisać jako adres dostawy 'ODBIORĘ OSOBIŚCIE'"/>
+                                </h:panelGroup>
+
+
+
 
                                 <p:outputLabel for="shippingTime" value="Preferowany czas dostawy"/>
                                 <p:calendar pattern="MM/dd/yyyy HH:mm:ss" id="shippingTime" value="#{orderBean.order.shippingTime}"/>
+
+                                <p:outputLabel for="paymentMethod" value="Sposób płatności"/>
+                                <p:selectOneMenu id="paymentMethod" value="#{orderBean.order.paymentMethod}">
+                                    <f:selectItem itemValue="GOTÓWKA" itemLabel="Płatność gotówką"/>
+                                    <f:selectItem itemValue="POTRĄCENIE" itemLabel="Należność potrącona z pensji"/>
+                                </p:selectOneMenu>
 
                                 <h:panelGroup/>
                                 <p:commandButton action="#{orderBean.order}" value="Złóż zamówienie" ajax="false"/>

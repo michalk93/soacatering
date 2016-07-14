@@ -36,7 +36,13 @@
                                     <p:link outcome="menu" value="#{category.name}">
                                         <f:param name="categoryId" value="${category.id}"/>
                                     </p:link>
-                                    <p:commandButton actionListener="#{categoryController.removeCategory(category)}" icon="ui-icon-trash" update="categoryListForm"/>
+                                    <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                                        <p:commandButton actionListener="#{categoryController.remove(category)}" icon="ui-icon-trash" update="categoryListForm"/>
+                                        <p:link outcome="editCategory" value="Edytuj">
+                                            <f:param name="id" value="#{category.id}"/>
+                                        </p:link>
+                                    </h:panelGroup>
+
                                 </li>
                             </c:forEach>
                         </ul>

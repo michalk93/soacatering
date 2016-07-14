@@ -50,6 +50,10 @@ public class Order implements Serializable {
     @JoinColumn(name = "status_id")
     OrderStatus status;
 
+    @Basic
+    @Column(name = "payment_method")
+    String paymentMethod;
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
@@ -124,6 +128,14 @@ public class Order implements Serializable {
         this.comment = comment;
     }
 
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
     public void addCourses(List<Course> courses){
         for (Course c : courses) {
             orderItems.add(new OrderItem(this, c));
@@ -132,6 +144,14 @@ public class Order implements Serializable {
 
     public void addCourse(Course course) {
         orderItems.add(new OrderItem(this, course));
+    }
+
+    public Double getTotal(){
+        Double total = 0.0;
+        for(OrderItem item : getOrderItems()){
+            total += item.getCourse().getPrice();
+        }
+        return total;
     }
 
     @Override

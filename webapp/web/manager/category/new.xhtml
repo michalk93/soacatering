@@ -16,13 +16,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form>
-                            <h:panelGrid columns="2" cellpadding="3">
+                            <p:panelGrid columns="2" cellpadding="3">
                                 <p:outputLabel for="name" value="Nazwa kategorii: "/>
                                 <p:inputText id="name" value="#{categoryController.category.name}" />
 
                                 <h:panelGroup/>
-                                <p:commandButton action="#{categoryController.saveNewCategory()}" value="Zapisz kategorię"/>
-                            </h:panelGrid>
+                                <p:commandButton action="#{categoryController.save()}" value="Dodaj kategorię"/>
+                            </p:panelGrid>
                         </h:form>
                     </div>
                 </div>

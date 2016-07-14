@@ -5,39 +5,41 @@
 <html
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
         xml:lang="en" lang="en">
 <h:body>
     <ui:composition template="/template/template.xhtml">
         <ui:define name="title">Welcome</ui:define>
         <ui:define name="content">
-            <div class="conainer">
+            <div class="container">
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center">
-                        <h2>TOP 10</h2>
                         <p>Zobacz co klienci wybierają najczęściej</p>
                     </div>
                 </div>
-                <div class="row" id="top10">
-                    <div class="col-sm-12 col-md-6 col-md-offset-3">
-                        <div class="row item" style="border-bottom: 1px solid white">
-                            <div class="col-sm-9">
-                                <h4>Witaj wiosno</h4>
-                                <p>Ziemniaki, kotlet schabowy, surówka</p>
-                            </div>
-                            <div class="col-sm-3 price">
-                                14.99 zł
-                            </div>
-                        </div>
-                        <div class="row item" style="border-bottom: 1px solid white">
-                            <div class="col-sm-9">
-                                <h4>Witaj wiosno</h4>
-                                <p>Ziemniaki, kotlet schabowy, surówka</p>
-                            </div>
-                            <div class="col-sm-3 price">
-                                14.99 zł
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p:growl widgetVar="growl" showDetail="true" />
+                        <h:form id="top10Form">
+                            <p:dataList id="top10List" value="#{courseController.top10}" var="course" type="ordered">
+                                <f:facet name="header">TOP 10</f:facet>
+                                <h:outputText value="#{course.name}"/>,
+                                <h:outputText value="#{course.price}">
+                                    <f:convertNumber currencySymbol="zł" type="currency" />
+                                </h:outputText>
+                            </p:dataList>
+                        </h:form>
+                        <p:socket channel="/top10" onMessage="handleMessage">
+                            <p:ajax event="message" update="top10Form:top10List"/>
+                        </p:socket>
+                        <script type="text/javascript">
+                            function handleMessage(facesmessage) {
+                                facesmessage.severity = 'info';
+
+                                PF('growl').show([facesmessage]);
+                            }
+                        </script>
                     </div>
                 </div>
             </div>

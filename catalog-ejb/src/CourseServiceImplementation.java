@@ -1,10 +1,16 @@
 import common.CourseService;
 import db.HibernateUtil;
-import model.Category;
-import model.Course;
+import event.CourseRemoveEvent;
+import model.*;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.*;
+import org.hibernate.criterion.Order;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +19,8 @@ import java.util.List;
 @Stateless
 public class CourseServiceImplementation implements CourseService {
 
+    @Inject
+    Event<CourseRemoveEvent> event;
 
     @Override
     public List<Course> getCoursesFromCategory(Category category) {
@@ -25,12 +33,13 @@ public class CourseServiceImplementation implements CourseService {
     }
 
     @Override
-    public boolean removeCourse(Course course) {
+    public boolean remove(Course course) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.delete(course);
         session.getTransaction().commit();
         HibernateUtil.shutdown();
+        event.fire(new CourseRemoveEvent(course));
         return true;
     }
 
@@ -57,5 +66,29 @@ public class CourseServiceImplementation implements CourseService {
             return false;
         }
 
+    }
+
+    @Override
+    public Course getById(Integer id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Course course = (Course) session.createCriteria(Course.class).add(Restrictions.eq("courseId", id)).uniqueResult();
+        HibernateUtil.shutdown();
+        return course;
+    }
+
+    @Override
+    public List<Course> getTop10() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        ProjectionList projectionList = Projections.projectionList().add(Projections.groupProperty("course")).add(Projections.alias(Projections.rowCount(),"count"));
+        Criteria criteria = session.createCriteria(OrderItem.class).setProjection(projectionList);
+        List<Course[]> results = criteria.addOrder(Order.desc("count")).list();
+        HibernateUtil.shutdown();
+
+        List<Course> resultCourses = new ArrayList<>();
+        for(Object[] result : results) {
+            resultCourses.add((Course)result[0]);
+        }
+
+        return resultCourses;
     }
 }

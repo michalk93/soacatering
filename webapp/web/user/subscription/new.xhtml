@@ -12,7 +12,7 @@
     <ui:composition template="/template/template.xhtml">
         <ui:define name="title">Tworzenie subskrybcji </ui:define>
         <ui:define name="content">
-            <div class="conainer">
+            <div class="container">
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center">
                         <h2>USER PANEL</h2>
@@ -39,6 +39,13 @@
 
                                 <p:outputLabel for="shippingAddress" value="Adres dostawy"/>
                                 <p:inputTextarea id="shippingAddress" value="#{subscriptionController.subscription.shippingAddress}"/>
+
+                                <p:outputLabel for="paymentMethod" value="Sposób płatności"/>
+                                <p:selectOneMenu id="paymentMethod" value="#{subscriptionController.subscription.paymentMethod}">
+                                    <f:selectItem itemValue="GOTÓWKA" itemLabel="Płatność gotówką przy odbiorze"/>
+                                    <f:selectItem itemValue="POTRĄCENIE" itemLabel="Należność potrącona z pensji"/>
+                                </p:selectOneMenu>
+
 
                                 <h:panelGroup/>
                                 <h:panelGroup>

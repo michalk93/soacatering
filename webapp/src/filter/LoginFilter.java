@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Created by mkolbusz on 6/21/16.
  */
-@WebFilter(urlPatterns = {"/public/index.xhtml"})
+//@WebFilter(urlPatterns = {"/public/index.xhtml"})
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

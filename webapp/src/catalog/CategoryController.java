@@ -5,8 +5,11 @@ import model.Category;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.persistence.PostPersist;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class CategoryController {
         category = new Category();
         categoryList = categoryService.getAll();
     }
+
 
     public Category getCategory() {
         return category;
@@ -48,11 +52,15 @@ public class CategoryController {
         return categoryService.getAll();
     }
 
-    public void saveNewCategory(){
+    public void save(){
         categoryService.save(category);
+
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Kategoria zaktualizowana", "Nowa nazwa: " + category.getName());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
     }
 
-    public void removeCategory(Category category) {
+    public void remove(Category category) {
         categoryList.remove(category);
         categoryService.remove(category);
     }

@@ -7,7 +7,15 @@
         <from-view-id>/public/menu.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>editCourse</from-outcome>
-            <to-view-id>/admin/menu/edit.xhtml</to-view-id>
+            <to-view-id>/manager/course/edit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/public/categories.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>editCategory</from-outcome>
+            <to-view-id>/manager/category/edit.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 
@@ -16,6 +24,14 @@
         <navigation-case>
             <from-outcome>editSubscription</from-outcome>
             <to-view-id>/user/subscription/edit.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/user/order.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>orderConfirmation</from-outcome>
+            <to-view-id>/user/orders.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

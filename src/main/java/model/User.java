@@ -7,7 +7,10 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -54,6 +57,10 @@ public class User implements Serializable {
     @Fetch(FetchMode.SELECT)
     List<Subscription> subscriptions = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    Company company;
+
 
     public int getId() {
         return id;
@@ -87,6 +94,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @XmlTransient
     public String getPassword() {
         return password;
     }
@@ -119,8 +127,27 @@ public class User implements Serializable {
         this.subscriptions = subscriptions;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+
     @Override
     public String toString() {
         return this.firstname + " " + this.lastname + " " + this.email;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User)obj;
+        if(user.getEmail().equalsIgnoreCase(this.getEmail())){
+            return true;
+        }
+        return false;
     }
 }

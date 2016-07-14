@@ -72,4 +72,14 @@ public class CourseIngredient implements Serializable {
     public String toString() {
         return this.getIngredient().getName();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (((CourseIngredient)obj).getIngredient().getIngredientId() == this.getIngredient().getIngredientId());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getIngredient().getIngredientId();
+    }
 }

@@ -11,7 +11,9 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by mkolbusz on 6/8/16.
@@ -32,7 +34,7 @@ public class Course implements Serializable {
 
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    List<CourseIngredient> courseIngredients = new ArrayList<>();
+    Set<CourseIngredient> courseIngredients = new HashSet<>();
 
     @Column(name = "price")
     private Double price;
@@ -64,11 +66,11 @@ public class Course implements Serializable {
         this.name = name;
     }
 
-    public List<CourseIngredient> getCourseIngredients() {
+    public Set<CourseIngredient> getCourseIngredients() {
         return courseIngredients;
     }
 
-    public void setCourseIngredients(List<CourseIngredient> courseIngredients) {
+    public void setCourseIngredients(Set<CourseIngredient> courseIngredients) {
         this.courseIngredients = courseIngredients;
     }
 
@@ -98,6 +100,16 @@ public class Course implements Serializable {
 
     @Override
     public String toString() {
-        return this.getName() + " " + this.getPrice();
+        return "[" + this.getCourseId() + "]" + this.getName() + " " + this.getPrice();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((Course)obj).getCourseId() == this.getCourseId();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getCourseId();
     }
 }

@@ -12,7 +12,11 @@ import java.util.List;
 @Remote
 public interface CourseService {
     List<Course> getCoursesFromCategory(Category category);
-    boolean removeCourse(Course course);
+    boolean remove(Course course);
     List<Course> getAll();
     boolean save(Course course);
+
+    Course getById(Integer id);
+
+    List<Course> getTop10();
 }

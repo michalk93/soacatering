@@ -4,23 +4,23 @@ import common.CourseService;
 import model.Category;
 import model.Course;
 import model.CourseIngredient;
-import model.Ingredient;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by mkolbusz on 6/8/16.
@@ -28,7 +28,9 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class CourseController implements Serializable {
+
     private Course course;
+
     private UploadedFile coursePhoto;
 
     private List<Course> courseList = new ArrayList<>();
@@ -40,10 +42,21 @@ public class CourseController implements Serializable {
 
     @PostConstruct
     void init(){
-        course = new Course();
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        if(context.getRequestParameterMap().containsKey("id")){
+            Integer id = Integer.parseInt(context.getRequestParameterMap().get("id"));
+            if(id != null){
+                course = courseService.getById(id);
+            }
+        }else {
+            course = new Course();
+        }
+
+
         courseList = getCursesFromCategory();
         selectedCourseIngredient = new CourseIngredient();
     }
+
 
     public Course getCourse() {
         return course;
@@ -78,21 +91,35 @@ public class CourseController implements Serializable {
     }
 
     public void addIngredient(){
-        course.getCourseIngredients().add(new CourseIngredient(course,
-                selectedCourseIngredient.getIngredient(),
-                selectedCourseIngredient.getQuantity()));
-        FacesMessage msg = new FacesMessage("Dodano składnik" + " S: " + course.getCourseIngredients().size(), course.getName() );
+        CourseIngredient courseIngredient = new CourseIngredient(course,
+                selectedCourseIngredient.getIngredient(), selectedCourseIngredient.getQuantity());
+
+        Optional<CourseIngredient> ingredient = course.getCourseIngredients().stream()
+                .filter(o -> o.equals(courseIngredient)).findFirst();
+
+        FacesMessage msg;
+        if(ingredient.isPresent()){
+            ingredient.get().setQuantity(courseIngredient.getQuantity());
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zaktualizowano składnik",
+                    courseIngredient.getIngredient().getName() + ": " + courseIngredient.getQuantity());
+        }else {
+            course.getCourseIngredients().add(courseIngredient);
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodano nowy składnik",
+                    courseIngredient.getIngredient().getName() + ": " + courseIngredient.getQuantity());
+        }
+
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void save(){
-        if(coursePhoto != null){
-           if(this.uploadPhoto(coursePhoto)){
-               course.setImage(coursePhoto.getFileName());
-           }
-        }
+//        if(coursePhoto != null){
+//           if(this.uploadPhoto(coursePhoto)){
+//               course.setImage(coursePhoto.getFileName());
+//           }
+//        }
         courseService.save(course);
-        FacesMessage msg = new FacesMessage("Danie zapisane pomyślnie", course.getName());
+
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Danie zapisane pomyślnie", course.getName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -143,10 +170,19 @@ public class CourseController implements Serializable {
         return courses;
     }
 
+    public List<Course> getTop10(){
+        return courseService.getTop10();
+    }
+
+    public void newTop10(){
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish("/top10", new FacesMessage("TOP10", "Nastąpiła zmiana w TOP10"));
+    }
+
     public void removeCourse(Course course) {
-        courseService.removeCourse(course);
+        courseService.remove(course);
         courseList.remove(course);
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Danie zapisane pomyślnie"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Danie zostało usunięte"));
     }
 
 

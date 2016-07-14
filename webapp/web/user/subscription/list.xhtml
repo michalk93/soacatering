@@ -12,10 +12,10 @@
     <ui:composition template="/template/template.xhtml">
         <ui:define name="title">Zamówienia ${userController.user.email}</ui:define>
         <ui:define name="content">
-            <div class="conainer">
+            <div class="container">
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center">
-                        <h2>USER PANEL</h2>
+                        <h2><h:outputText value="Zamówienia" /> ${userController.user.email} </h2>
                     </div>
                 </div>
                 <div class="row">

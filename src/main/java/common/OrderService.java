@@ -3,6 +3,7 @@ package common;
 import model.Order;
 import model.OrderStatus;
 import model.User;
+import org.apache.tools.ant.taskdefs.condition.Or;
 
 import javax.ejb.Remote;
 import java.util.List;
@@ -20,4 +21,8 @@ public interface OrderService {
     List<Order> getAll();
 
     boolean update(Order order);
+
+    boolean changeStatus(Order order);
+
+    boolean payFromSalary(Order order);
 }

@@ -25,5 +25,6 @@
         <mapping class="model.Subscription"/>
         <mapping class="model.SubscriptionItem"/>
         <mapping class="model.OrderStatus"/>
+        <mapping class="model.Company"/>
     </session-factory>
 </hibernate-configuration>
