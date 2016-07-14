@@ -6,6 +6,8 @@ import model.Company;
 import org.hibernate.Session;
 
 import javax.ejb.Stateless;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,5 +30,21 @@ public class CompanyServiceImplementation implements CompanyService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Company> getAll() {
+        List<Company> result;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            result = session.createCriteria(Company.class).list();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result = new ArrayList<>();
+        }
+        HibernateUtil.shutdown();
+        return result;
+
     }
 }

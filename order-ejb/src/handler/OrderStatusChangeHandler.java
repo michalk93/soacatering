@@ -17,7 +17,7 @@ import javax.jms.QueueConnectionFactory;
  * Created by mkolbusz on 7/14/16.
  */
 @Stateless
-public class OrderChangeStatusHandler {
+public class OrderStatusChangeHandler {
 
     @EJB(lookup = "java:jboss/exported/mail-service-ejb/MailServiceImplementation!common.MailService")
     MailService mailService;
@@ -32,7 +32,7 @@ public class OrderChangeStatusHandler {
     private JMSContext context;
 
 
-    public void changeStatusHandler(@Observes OrderChangeStatusEvent changeStatusEvent) {
+    public void handleOrderStatusChange(@Observes OrderChangeStatusEvent changeStatusEvent) {
         Order order = changeStatusEvent.getOrder();
 
         if(order.getStatus().getName().equals("w dostarczeniu")) {

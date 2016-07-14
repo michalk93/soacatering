@@ -35,6 +35,14 @@
                             <p:submenu label="${sessionScope.user}" icon="ui-icon-user" rendered="#{request.isUserInRole('EMPLOYEE')}">
                                 <p:menuitem value="Lista zamówień" url="/employee/order/list.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
                             </p:submenu>
+                            <p:submenu label="${sessionScope.user}" icon="ui-icon-user" rendered="#{request.isUserInRole('ADMIN')}">
+                                <p:submenu label="Firmy" icon="ui-icon-arrowreturnthick-1-e">
+                                    <p:menuitem value="Lista firm" url="/admin/company/list.xhtml"/>
+                                    <p:menuitem value="Dodaj firmę" url="/admin/company/new.xhtml"/>
+                                </p:submenu>
+                                <p:menuitem value="Dodaj pozycję menu" url="/manager/course/new.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+                                <p:menuitem value="Dodaj składnik" url="/manager/ingredient/new.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                            </p:submenu>
                             <p:menuitem value="Koszyk: #{orderBean.courseList.size()}" url="/user/cart.xhtml"/>
                             <p:menuitem value="Wyloguj" action="#{accountBean.logout()}"/>
                         </p:menubar>

@@ -43,6 +43,9 @@
                                     <f:convertDateTime pattern="YYYY-MM-dd HH:MM"/>
                                 </h:outputText>
                             </p:column>
+                            <p:column headerText="Metoda płatności">
+                                <h:outputText value="#{order.paymentMethod}"/>
+                            </p:column>
 
                             <p:column headerText="Status">
                                 <h:form id="statusForm">

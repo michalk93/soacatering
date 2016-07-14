@@ -23,6 +23,4 @@ public interface OrderService {
     boolean update(Order order);
 
     boolean changeStatus(Order order);
-
-    boolean payFromSalary(Order order);
 }
