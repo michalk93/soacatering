@@ -9,6 +9,7 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core"
         xml:lang="en" lang="en">
+<h:head></h:head>
 
 <h:body>
     <ui:composition template="/template/template.xhtml">
@@ -63,9 +64,6 @@
                                             <f:facet name="input"><p:inputText value="#{courseIngredient.quantity}"/></f:facet>
                                         </p:cellEditor>
                                     </p:column>
-                                    <p:column rendered="#{not empty param.id}">
-                                        <p:rowEditor/>
-                                    </p:column>
                                 </p:dataTable>
                             </p:panelGrid>
                             <h:panelGroup/>
@@ -81,7 +79,7 @@
                             <h:panelGroup/>
 
                             <h:panelGroup/>
-                            <p:commandButton rendered="#{empty param.id}" action="#{courseController.save}" value="Dodaj danie"/>
+                            <p:commandButton action="#{courseController.save}" value="Dodaj danie"/>
                             <h:panelGroup/>
                         </p:panelGrid>
                     </h:form>

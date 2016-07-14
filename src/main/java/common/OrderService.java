@@ -23,4 +23,6 @@ public interface OrderService {
     boolean update(Order order);
 
     boolean changeStatus(Order order);
+
+    Order getOrderById(Integer id);
 }

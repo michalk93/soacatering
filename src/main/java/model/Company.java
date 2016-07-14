@@ -24,9 +24,6 @@ public class Company implements Serializable {
     @Column(name = "auth_code")
     String authCode = "";
 
-    @Basic
-    @Column(name = "service_url")
-    String serviceUrl;
 
 
     public int getCompanyId() {
@@ -53,13 +50,6 @@ public class Company implements Serializable {
         this.authCode = authCode;
     }
 
-    public String getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(String serviceUrl) {
-        this.serviceUrl = serviceUrl;
-    }
 
     @Override
     public boolean equals(Object obj) {

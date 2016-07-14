@@ -19,7 +19,7 @@ public class OrderStatus implements Serializable {
     @Column(name = "name")
     String name;
 
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     List<Order> orders;
 
     public OrderStatus(){}

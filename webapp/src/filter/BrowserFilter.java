@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by mkolbusz on 6/28/16.
  */
-//@WebFilter(urlPatterns = {"/*"})
+@WebFilter(urlPatterns = {"/*"})
 public class BrowserFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,7 +25,7 @@ public class BrowserFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
         Browser browser = userAgent.getBrowser();
-        if(browser != Browser.CHROME) {
+        if(browser.getId() == 3298) {
             System.err.println(request.getRequestURI());
             if(!request.getRequestURI().endsWith("public/badbrowser.xhtml")) {
                 response.sendRedirect("../public/badbrowser.xhtml");

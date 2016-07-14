@@ -30,7 +30,9 @@
                                 <f:facet name="header">
                                     Pozycje dostępne w wybranej kategorii
                                 </f:facet>
-
+                                <p:column headerText="Zdjecie">
+                                    <p:graphicImage value="/images/dynamic/?file=${course.image}" height="200" />
+                                </p:column>
                                 <p:column headerText="Nazwa">
                                     <h:outputText value="#{course.name}"/>
                                 </p:column>
@@ -46,6 +48,9 @@
                                     <p:commandButton rendered="#{request.isUserInRole('USER')}" icon="ui-icon-plus" actionListener="#{orderBean.addItem(course)}" update="j_idt9:headerCartSize"/>
                                     <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
                                         <p:link value="Edit" title="Edit this course" outcome="editCourse">
+                                            <f:param name="id" value="#{course.courseId}"/>
+                                        </p:link>
+                                        <p:link value="Dodaj zdjecie" outcome="addCoursePhoto">
                                             <f:param name="id" value="#{course.courseId}"/>
                                         </p:link>
                                         <p:commandButton icon="ui-icon-trash" title="Delete this course" action="#{courseController.removeCourse(course)}" update="coursesDT" />

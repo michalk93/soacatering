@@ -34,4 +34,12 @@
             <to-view-id>/user/orders.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/public/menu.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>addCoursePhoto</from-outcome>
+            <to-view-id>/manager/course/addPhoto.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

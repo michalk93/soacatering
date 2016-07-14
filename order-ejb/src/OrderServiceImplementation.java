@@ -101,5 +101,14 @@ public class OrderServiceImplementation implements OrderService {
         return true;
     }
 
+    @Override
+    public Order getOrderById(Integer id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Order order = (Order)session.createCriteria(Order.class).add(Restrictions.eq("orderId", id)).uniqueResult();
+        HibernateUtil.shutdown();
+
+        return order;
+    }
+
 
 }

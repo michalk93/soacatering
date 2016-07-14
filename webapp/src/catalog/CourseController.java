@@ -31,8 +31,6 @@ public class CourseController implements Serializable {
 
     private Course course;
 
-    private UploadedFile coursePhoto;
-
     private List<Course> courseList = new ArrayList<>();
 
     private CourseIngredient selectedCourseIngredient;
@@ -74,14 +72,6 @@ public class CourseController implements Serializable {
         this.courseList = courseList;
     }
 
-    public UploadedFile getCoursePhoto() {
-        return coursePhoto;
-    }
-
-    public void setCoursePhoto(UploadedFile coursePhoto) {
-        this.coursePhoto = coursePhoto;
-    }
-
     public CourseIngredient getSelectedCourseIngredient() {
         return selectedCourseIngredient;
     }
@@ -112,43 +102,10 @@ public class CourseController implements Serializable {
     }
 
     public void save(){
-//        if(coursePhoto != null){
-//           if(this.uploadPhoto(coursePhoto)){
-//               course.setImage(coursePhoto.getFileName());
-//           }
-//        }
         courseService.save(course);
 
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Danie zapisane pomyślnie", course.getName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-    }
-
-    private boolean uploadPhoto(UploadedFile file) {
-        System.err.println("Start upload file");
-        try {
-            // write the inputStream to a FileOutputStream
-            OutputStream out = new FileOutputStream(new File("~/uploads/" + file.getFileName()));
-            InputStream in = file.getInputstream();
-
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            while ((read = in.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-
-            in.close();
-            out.flush();
-            out.close();
-
-            return true;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return false;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
     }
 
     private List<Course> getCursesFromCategory() {

@@ -3,6 +3,7 @@ package rest.exlusion;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import model.Course;
+import model.CourseIngredient;
 
 /**
  * Created by mkolbusz on 6/29/16.
@@ -10,7 +11,15 @@ import model.Course;
 public class CategoryWithCourses implements ExclusionStrategy {
     @Override
     public boolean shouldSkipField(FieldAttributes fieldAttributes) {
-        return (fieldAttributes.getDeclaringClass() == Course.class && fieldAttributes.getName().equalsIgnoreCase("category"));
+        if(fieldAttributes.getDeclaringClass() == Course.class && fieldAttributes.getName().equalsIgnoreCase("category")){
+            return true;
+        }
+
+        if(fieldAttributes.getDeclaringClass() == CourseIngredient.class && fieldAttributes.getName().equalsIgnoreCase("course")){
+            return true;
+        }
+
+        return false;
     }
 
     @Override

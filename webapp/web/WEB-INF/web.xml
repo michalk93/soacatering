@@ -6,10 +6,6 @@
     <servlet>
         <servlet-name>facesServlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
@@ -23,13 +19,28 @@
         <url-pattern>/primepush/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DynamicImagesServlet</servlet-name>
+        <servlet-class>servlet.DynamicImageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DynamicImagesServlet</servlet-name>
+        <url-pattern>/images/dynamic/*</url-pattern>
+    </servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>facesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>facesServlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>public/index.xhtml</welcome-file>
     </welcome-file-list>
+
+
 
     <!--<servlet-mapping>-->
         <!--<servlet-name>javax.ws.rs.core.Application</servlet-name>-->
@@ -44,6 +55,15 @@
     <context-param>
         <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
         <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.UPLOADER</param-name>
+        <param-value>auto</param-value>
+    </context-param>
+    <context-param>
+        <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>client</param-value>
     </context-param>
 
     <session-config>
