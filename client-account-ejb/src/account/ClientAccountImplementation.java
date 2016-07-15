@@ -47,7 +47,7 @@ public class ClientAccountImplementation implements ClientAccount {
             throw new UserSessionExistsException();
         }
 
-//        user.setIsLogged(1);
+        user.setIsLogged(1);
         session.update(user);
         session.getTransaction().commit();
         HibernateUtil.shutdown();

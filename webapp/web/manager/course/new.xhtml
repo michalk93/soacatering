@@ -74,12 +74,8 @@
                             </p:inputText>
                             <h:panelGroup/>
 
-                            <p:outputLabel for="photo" value="Zdjęcie potrawy"/>
-                            <p:fileUpload id="photo" value="#{courseController.coursePhoto}" mode="simple" skinSimple="true"/>
                             <h:panelGroup/>
-
-                            <h:panelGroup/>
-                            <p:commandButton action="#{courseController.save}" value="Dodaj danie"/>
+                            <p:commandButton action="#{courseController.save}" value="Dodaj danie" update="courseForm"/>
                             <h:panelGroup/>
                         </p:panelGrid>
                     </h:form>

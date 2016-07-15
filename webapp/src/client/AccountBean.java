@@ -51,6 +51,9 @@ public class AccountBean {
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
         try {
+            if(request.getUserPrincipal() != null){
+                request.logout();
+            }
             request.login(user.getEmail(), user.getPassword());
             user = clientAccount.login(user);
             context.getExternalContext().getSessionMap().put("user", user);
@@ -60,6 +63,7 @@ public class AccountBean {
             context.addMessage(null, new FacesMessage("Użytkownik już zalogowany."));
             return null;
         } catch (ServletException e) {
+            context.addMessage(null, new FacesMessage("Użytkownik już zalogowany."));
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,11 +73,21 @@ public class AccountBean {
     }
 
     public String logout() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
         HttpSession session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         User user = (User) session.getAttribute("user");
-        session.invalidate();
-        clientAccount.logout(user);
+
+        if(clientAccount.logout(user)){
+            try {
+                request.logout();
+                session.invalidate();
+            } catch (ServletException e) {
+                e.printStackTrace();
+            }
+
+        }
         return "/public/index?faces-redirect=true";
     }
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by mkolbusz on 6/28/16.
  */
-@WebFilter(urlPatterns = {"/*"})
+//@WebFilter(urlPatterns = {"/*"})
 public class BrowserFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

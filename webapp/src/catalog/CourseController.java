@@ -101,11 +101,13 @@ public class CourseController implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
-    public void save(){
+    public String save(){
         courseService.save(course);
-
+        init();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Danie zapisane pomyślnie", course.getName());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        return "";
     }
 
     private List<Course> getCursesFromCategory() {

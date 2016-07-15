@@ -38,7 +38,8 @@ public class OrderStatusChangeHandler {
         if(order.getStatus().getName().equals("w dostarczeniu")) {
             context = connectionFactory.createContext();
 
-            String message = "\tAdres: " + order.getShippingAddress() + "\n" +
+            String message = "\tNumer zamowienia: #" + order.getOrderId() + "\n" +
+                    "\tAdres: " + order.getShippingAddress() + "\n" +
                     "\tPreferowany czas: " + order.getShippingTime() + "\n" +
                     "\tKomentarz: " + order.getComment();
             context.createProducer().send(deliveryQueue, message);

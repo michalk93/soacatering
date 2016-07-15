@@ -5,8 +5,10 @@ import model.Ingredient;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,5 +52,8 @@ public class IngredientController {
 
     public void save(){
         ingredientService.save(ingredient);
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Składnik dodany", ingredient.getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        init();
     }
 }

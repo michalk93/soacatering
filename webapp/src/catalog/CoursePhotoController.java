@@ -41,7 +41,8 @@ public class CoursePhotoController {
         this.course = course;
     }
 
-    public String dummyAction(){
+    public String uploadPhoto(){
+        System.err.println(file.getFileName());
         try {
             Path folder = Paths.get("/home/mkolbusz/uploads/"+file.getFileName());
             Files.write(folder, file.getContents(), StandardOpenOption.CREATE);
@@ -53,6 +54,8 @@ public class CoursePhotoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zdjęcie zostało zapisane", file.getFileName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         return "";
     }
 }

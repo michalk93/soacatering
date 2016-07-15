@@ -57,12 +57,13 @@ public class CategoryController {
 
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Kategoria zaktualizowana", "Nowa nazwa: " + category.getName());
         FacesContext.getCurrentInstance().addMessage(null, message);
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
     }
 
     public void remove(Category category) {
         categoryList.remove(category);
         categoryService.remove(category);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Kategoria usunięta", "Nazwa: " + category.getName());
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
 }

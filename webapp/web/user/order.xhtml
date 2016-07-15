@@ -34,7 +34,7 @@
 
 
                                 <p:outputLabel for="shippingTime" value="Preferowany czas dostawy"/>
-                                <p:calendar pattern="MM/dd/yyyy HH:mm:ss" id="shippingTime" value="#{orderBean.order.shippingTime}"/>
+                                <p:calendar pattern="MM/dd/yyyy HH:mm" id="shippingTime" value="#{orderBean.order.shippingTime}"/>
 
                                 <p:outputLabel for="paymentMethod" value="Sposób płatności"/>
                                 <p:selectOneMenu id="paymentMethod" value="#{orderBean.order.paymentMethod}">

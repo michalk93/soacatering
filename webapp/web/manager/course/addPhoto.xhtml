@@ -16,15 +16,14 @@
 </f:metadata>
 <h:body>
     <ui:composition template="/template/template.xhtml">
-        <ui:define name="title">Nowa pozycja w catalog</ui:define>
+        <ui:define name="title">Zdjęcie potrawy</ui:define>
         <ui:define name="content">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form enctype="multipart/form-data">
-                            <p:fileUpload value="#{coursePhotoController.file}"  mode="simple"/>
-                            <p:separator/>
-                            <h:commandButton value="Dummy Action" action="#{coursePhotoController.dummyAction}" />
+                            <p:fileUpload value="#{coursePhotoController.file}" mode="simple" />
+                            <p:commandButton value="Zapisz zdjęcie" ajax="false" action="#{coursePhotoController.uploadPhoto}"/>
                         </h:form>
                     </div>
                 </div>

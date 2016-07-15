@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form id="coursesDTForm">
-                            <p:growl id="msgs" showDetail="true"/>
+                            <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
 
                             <p:dataTable id="coursesDT" var="course" value="#{courseController.courseList}" rowKey="#{course.courseId}">
                                 <f:facet name="header">
@@ -44,15 +44,19 @@
                                         <f:convertNumber currencySymbol="zł" type="currency"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="Menu">
+                                <p:column headerText="Menu" rendered="#{not empty sessionScope.user}">
                                     <p:commandButton rendered="#{request.isUserInRole('USER')}" icon="ui-icon-plus" actionListener="#{orderBean.addItem(course)}" update="j_idt9:headerCartSize"/>
                                     <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
-                                        <p:link value="Edit" title="Edit this course" outcome="editCourse">
+                                        <div>
+                                        <h:link value="Edytuj" title="Edytuj potrawe" outcome="editCourse">
                                             <f:param name="id" value="#{course.courseId}"/>
-                                        </p:link>
-                                        <p:link value="Dodaj zdjecie" outcome="addCoursePhoto">
+                                        </h:link>
+                                        </div>
+                                        <div>
+                                        <h:link value="Dodaj zdjecie" outcome="addCoursePhoto">
                                             <f:param name="id" value="#{course.courseId}"/>
-                                        </p:link>
+                                        </h:link>
+                                        </div>
                                         <p:commandButton icon="ui-icon-trash" title="Delete this course" action="#{courseController.removeCourse(course)}" update="coursesDT" />
                                     </h:panelGroup>
                                 </p:column>

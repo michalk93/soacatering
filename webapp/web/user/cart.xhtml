@@ -39,7 +39,9 @@
                                     <h:outputText value="#{course.name}"/>
                                 </p:column>
                                 <p:column headerText="Cena">
-                                    <h:outputText value="#{course.price}"/>
+                                    <h:outputText value="#{course.price}">
+                                        <f:convertNumber currencySymbol="zł" type="currency"/>
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="Menu" rendered="#{request.isUserInRole('USER')}">
                                     <p:commandButton icon="ui-icon-trash" title="Delete this course" action="#{orderBean.removeItem(course)}" update="coursesDT,j_idt9:headerCartSize,j_idt9:j_idt10" />

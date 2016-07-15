@@ -20,13 +20,6 @@
                         <p>Zobacz naszą ofertę, wybierz danie dla siebie</p>
                     </div>
                 </div>
-                <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <a class="btn btn-default" href="/webapp/admin/category/new.xhtml">Dodaj kategorię</a>
-                        </div>
-                    </div>
-                </h:panelGroup>
                 <div class="row">
                     <div class="col-sm-12">
                         <h:form id="categoryListForm">
@@ -36,13 +29,12 @@
                                     <p:link outcome="menu" value="#{category.name}">
                                         <f:param name="categoryId" value="${category.id}"/>
                                     </p:link>
-                                    <h:panelGroup rendered="#{request.isUserInRole('MANAGER')}">
+                                    <h:panelGroup styleClass="pull-right" rendered="#{request.isUserInRole('MANAGER')}">
                                         <p:commandButton actionListener="#{categoryController.remove(category)}" icon="ui-icon-trash" update="categoryListForm"/>
-                                        <p:link outcome="editCategory" value="Edytuj">
+                                        <p:link styleClass="btn btn-default" outcome="editCategory" value="Edytuj">
                                             <f:param name="id" value="#{category.id}"/>
                                         </p:link>
                                     </h:panelGroup>
-
                                 </li>
                             </c:forEach>
                         </ul>

@@ -62,6 +62,9 @@ public class OrderBean {
 
     public void addItem(Course course){
         this.courseList.add(course);
+
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Pozycja dodana do koszyka", course.getName());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void removeItem(Course course){

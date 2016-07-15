@@ -41,6 +41,17 @@
     </welcome-file-list>
 
 
+    <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>
+            org.primefaces.webapp.filter.FileUploadFilter
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>facesServlet</servlet-name>
+    </filter-mapping>
+
 
     <!--<servlet-mapping>-->
         <!--<servlet-name>javax.ws.rs.core.Application</servlet-name>-->

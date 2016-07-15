@@ -35,10 +35,14 @@
                                 <h:outputText value="#{order.shippingAddress}"/>
                             </p:column>
                             <p:column headerText="Preferowany czas dostawy">
-                                <h:outputText value="#{order.shippingTime}"/>
+                                <h:outputText value="#{order.shippingTime}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd HH:MM"/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="Czas złożenia zamówienia">
-                                <h:outputText value="#{order.createdAt}"/>
+                                <h:outputText value="#{order.createdAt}">
+                                    <f:convertDateTime pattern="YYYY-MM-dd HH:MM"/>
+                                </h:outputText>
                             </p:column>
                             <p:column headerText="Status">
                                 <h:outputText value="#{order.status}"/>

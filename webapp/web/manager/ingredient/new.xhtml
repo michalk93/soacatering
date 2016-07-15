@@ -15,8 +15,8 @@
         <ui:define name="title">Nowa pozycja w catalog</ui:define>
         <ui:define name="content">
             <div class="container">
-                <h:form enctype="multipart/form-data">
-                    <p:messages autoUpdate="true"/>
+                <h:form id="ingredientForm" enctype="multipart/form-data">
+                    <p:growl autoUpdate="true" showDetail="true"/>
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <p:panelGrid columns="2">
@@ -30,7 +30,7 @@
                                 <p:inputText id="alert_quantity" required="true" value="#{ingredientController.ingredient.alertQantity}"/>
 
                                 <h:panelGroup/>
-                                <p:commandButton icon="ui-icon-save" value="Zapisz" action="#{ingredientController.save}"/>
+                                <p:commandButton icon="ui-icon-save" value="Zapisz" action="#{ingredientController.save}" update="ingredientForm"/>
                             </p:panelGrid>
                         </div>
                     </div>
